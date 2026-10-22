@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WCMS Migration API</title>
+    <meta http-equiv="refresh" content="3;url=/swagger" />
+    <style>
+        :root {
+            --bg-1: #0b1120;
+            --bg-2: #111c33;
+            --card: rgba(22, 33, 56, 0.72);
+            --border: rgba(148, 163, 184, 0.18);
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-2: #818cf8;
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body { height: 100%; margin: 0; }
+
+        body {
+            font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background:
+                radial-gradient(900px 500px at 15% -10%, rgba(56, 189, 248, 0.18), transparent 60%),
+                radial-gradient(800px 500px at 90% 110%, rgba(129, 140, 248, 0.18), transparent 60%),
+                linear-gradient(160deg, var(--bg-1), var(--bg-2));
+        }
+
+        .card {
+            width: 100%;
+            max-width: 720px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px 44px;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+            animation: rise 0.5s ease-out both;
+        }
+
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 26px;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 13px;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+            color: #06121f;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            box-shadow: 0 8px 24px rgba(56, 189, 248, 0.35);
+        }
+
+        .brand h1 { margin: 0; font-size: 22px; font-weight: 700; }
+        .brand p { margin: 2px 0 0; font-size: 13px; color: var(--muted); }
+
+        .lead {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--muted);
+            margin: 0 0 26px;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            color: #86efac;
+            background: rgba(34, 197, 94, 0.12);
+            border: 1px solid rgba(34, 197, 94, 0.35);
+            padding: 5px 12px;
+            border-radius: 999px;
+            margin-bottom: 26px;
+        }
+
+        .dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+            animation: pulse 1.6s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6); }
+            70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+
+        .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 30px; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 12px;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+        }
+
+        .btn-primary {
+            color: #06121f;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            box-shadow: 0 12px 28px rgba(56, 189, 248, 0.32);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(56, 189, 248, 0.42); }
+
+        .btn-ghost {
+            color: var(--text);
+            background: rgba(148, 163, 184, 0.1);
+            border: 1px solid var(--border);
+        }
+        .btn-ghost:hover { background: rgba(148, 163, 184, 0.18); transform: translateY(-2px); }
+
+        .countdown { font-variant-numeric: tabular-nums; opacity: 0.85; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .endpoint {
+            text-decoration: none;
+            color: inherit;
+            background: rgba(148, 163, 184, 0.06);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 15px 16px;
+            transition: border-color 0.15s ease, background 0.15s ease;
+        }
+        .endpoint:hover { border-color: rgba(56, 189, 248, 0.5); background: rgba(56, 189, 248, 0.07); }
+
+        .endpoint .method {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.6px;
+            color: var(--accent);
+        }
+        .endpoint .path {
+            font-family: "Cascadia Code", Consolas, monospace;
+            font-size: 13px;
+            margin-top: 6px;
+            color: var(--text);
+            word-break: break-all;
+        }
+        .endpoint .desc { font-size: 12px; color: var(--muted); margin-top: 5px; }
+
+        .divider { height: 1px; background: var(--border); margin: 26px 0 18px; }
+
+        footer { font-size: 12px; color: var(--muted); text-align: center; }
+
+        @media (max-width: 560px) {
+            .card { padding: 30px 24px; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <main class="card">
+        <div class="brand">
+            <div class="logo">WC</div>
+            <div>
+                <h1>WCMS Migration API</h1>
+                <p>Content import facility &middot; v1</p>
+            </div>
+        </div>
+
+        <span class="pill"><span class="dot"></span> Swagger UI available (Development)</span>
+
+        <p class="lead">
+            Import content from your current WCMS via JSON payload or an Excel/CSV file.
+            Incoming content is queued, persisted and upstream systems are notified once the new content is available.
+            Redirecting you to the interactive API explorer in <span class="countdown" id="countdown">3</span>s&hellip;
+        </p>
+
+        <div class="actions">
+            <a class="btn btn-primary" href="/swagger">
+                Open Swagger UI
+                <span aria-hidden="true">&rarr;</span>
+            </a>
+            <a class="btn btn-ghost" href="/swagger/v1/swagger.json">View OpenAPI JSON</a>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="grid">
+            <a class="endpoint" href="/swagger/index.html#/Migration" >
+                <div class="method">POST</div>
+                <div class="path">/api/v1/Migration/PushContent</div>
+                <div class="desc">Import content from a JSON payload</div>
+            </a>
+            <a class="endpoint" href="/swagger/index.html#/Migration">
+                <div class="method">POST</div>
+                <div class="path">/api/v1/Migration/UploadExcel</div>
+                <div class="desc">Upload an .xlsx, .xls or .csv file</div>
+            </a>
+        </div>
+    </main>
+
+    <script>
+        (function () {
+            var seconds = 3;
+            var el = document.getElementById('countdown');
+            var timer = setInterval(function () {
+                seconds -= 1;
+                if (el) el.textContent = seconds > 0 ? seconds : 0;
+                if (seconds <= 0) {
+                    clearInterval(timer);
+                    window.location.replace('/swagger');
+                }
+            }, 1000);
+        })();
+    </script>
+</body>
+</html>

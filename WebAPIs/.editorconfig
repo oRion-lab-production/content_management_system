@@ -1,0 +1,6 @@
+# Header Template
+[*]
+file_header_template = Copyright(c) {year} POP_CAT.Sugarcoatco SCC.\nLicensed under proprietary.\nAuthored by {author}
+
+# Top-most EditorConfig file
+root = true
